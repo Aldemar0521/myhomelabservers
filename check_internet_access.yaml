@@ -1,0 +1,15 @@
+---
+- name: Ping a google dns
+  hosts: wfm_app_servers
+  tasks:
+    - name: Ping a domain
+      shell: ping -c 4 8.8.8.8
+      register: ping_result
+      ignore_errors: yes
+
+    - name: Display ping result
+      debug:
+        msg: |
+          Host: {{ inventory_hostname }}
+          Ping Result: {{ ping_result.stdout }}
+          Error: {{ ping_result.stderr }}
