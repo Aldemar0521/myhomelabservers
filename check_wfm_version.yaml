@@ -1,0 +1,25 @@
+---
+- name: Open a file and show its output
+  hosts: all
+  tasks:
+    - name: Check if the file exists
+      stat:
+        path: /totalview/inst/tv4/tvBuild.properties
+      register: file_status
+
+    - name: Read the file content
+      command: cat /totalview/inst/tv4/tvBuild.properties
+      when: file_status.stat.exists
+      register: file_content
+
+    - name: Display the file content
+      debug:
+        msg: |
+          Host: {{ inventory_hostname }}
+          File Content:
+          {{ file_content.stdout }}
+
+    - name: Notify if the file does not exist
+      debug:
+        msg: "File /totalview/inst/tv4/tvBuild.properties does not exist"
+      when: not file_status.stat.exists
