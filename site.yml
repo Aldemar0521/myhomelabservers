@@ -1,8 +1,8 @@
 ---
-- hosts: wfm_app_servers
-  become: true
+- name: Check OS version of Linux hosts
+  hosts: wfm_app_servers
+  gather_facts: true
   tasks:
-    - name: check the RHEL version
-        ansible.builtin.debug:
-          msg: "Found RHEL 7 or higher"
-          when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7"
+    - name: Display OS version
+      debug:
+        msg: "The OS version of {{ inventory_hostname }} is {{ ansible_distribution }} {{ ansible_distribution_version }}"
