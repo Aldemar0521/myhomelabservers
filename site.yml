@@ -2,6 +2,7 @@
 - hosts: wfm_app_servers
   become: true
   tasks:
-    - name: Print OS info
-      ansible.builtin.package:
-        name: apache2
+    name: check the RHEL version
+      ansible.builtin.debug:
+        msg: "Found RHEL 7 or higher"
+        when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7"
